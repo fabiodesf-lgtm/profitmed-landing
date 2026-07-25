@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfitMed | Contabilidade estratégica para clínicas e consultórios médicos</title>
+    <meta name="description"
+        content="ProfitMed — inteligência estratégica para clínicas e consultórios médicos + serviços contábeis completos.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --bg: #03050a;
+            --card: rgba(11, 14, 22, 0.85);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #f8fbff;
+            --muted: rgba(248, 251, 255, 0.72);
+            --cyan: #2cd2f6;
+            --violet: #7f63ff;
+            --pink: #f63ecb;
+            --success: #2ecc71;
+            --error: #ff6b6b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 10% 20%, rgba(44, 210, 246, 0.32), transparent 36%),
+                radial-gradient(circle at 88% 12%, rgba(246, 62, 203, 0.25), transparent 35%),
+                radial-gradient(circle at 50% 80%, rgba(127, 99, 255, 0.45), transparent 45%);
+            z-index: -2;
+            filter: blur(30px);
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url('data:image/svg+xml,%3Csvg width="1440" height="900" xmlns="http://www.w3.org/2000/svg"%3E%3Cdefs%3E%3Cpattern id="p" width="60" height="60" patternUnits="userSpaceOnUse"%3E%3Cpath d="M0 60V0h60" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="1440" height="900" fill="url(%23p)"/%3E%3C/svg%3E');
+            opacity: 0.45;
+            z-index: -1;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1180px, 92vw);
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 2.5rem 0 4.5rem;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.25rem;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 4vw, 3.6rem);
+            line-height: 1.1;
+            font-family: "Space Grotesk", sans-serif;
+            margin: 0 0 1rem;
+        }
+
+        .hero p {
+            color: var(--muted);
+            font-size: 1.05rem;
+            margin-bottom: 1.6rem;
+            max-width: 560px;
+        }
+
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background: none;
+            color: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(120deg, rgba(44, 210, 246, 0.95), rgba(127, 99, 255, 0.95));
+            color: #020304;
+            box-shadow: 0 20px 40px -25px rgba(44, 210, 246, 1);
+        }
+
+        .btn-secondary {
+            border-color: rgba(255, 255, 255, 0.25);
+            color: var(--text);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero-cards {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .hero-card {
+            border-radius: 1.4rem;
+            border: 1px solid var(--border);
+            background: var(--card);
+            padding: 1.4rem;
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            box-shadow: 0 25px 60px -45px rgba(0, 0, 0, 0.65);
+        }
+
+        .hero-card span {
+            color: var(--muted);
+        }
+
+        .hero-card strong {
+            font-size: 2.6rem;
+            font-family: "Space Grotesk", sans-serif;
+        }
+
+        section {
+            padding: 4.5rem 0;
+        }
+
+        .section-head {
+            margin-bottom: 2.5rem;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 1rem;
+            border-radius: 999px;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            background: rgba(44, 210, 246, 0.15);
+            color: var(--cyan);
+        }
+
+        .section-title {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2rem, 3vw, 2.8rem);
+            margin: 0.7rem 0 0.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+            max-width: 720px;
+            font-size: 1.05rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.3rem;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .card {
+            border-radius: 1.3rem;
+            border: 1px solid var(--border);
+            background: var(--card);
+            padding: 1.5rem;
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .card i {
+            font-size: 1.8rem;
+            color: var(--cyan);
+        }
+
+        .metrics-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .metric {
+            border: 1px solid var(--border);
+            border-radius: 1.2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            text-align: center;
+        }
+
+        .metric strong {
+            font-size: 2rem;
+            color: var(--cyan);
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .plan-card {
+            border-radius: 1.4rem;
+            border: 1px solid var(--border);
+            background: var(--card);
+            padding: 1.8rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            position: relative;
+        }
+
+        .plan-card.highlight {
+            border-color: rgba(44, 210, 246, 0.6);
+            box-shadow: 0 30px 80px -55px rgba(44, 210, 246, 1);
+        }
+
+        .plan-card .label {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .plan-price {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--cyan);
+        }
+
+        .plan-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            color: var(--muted);
+        }
+
+        .plan-btn {
+            margin-top: auto;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .process-grid {
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        }
+
+        .process-step span {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(44, 210, 246, 0.15);
+            color: var(--cyan);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .cta {
+            border-radius: 1.8rem;
+            border: 1px solid rgba(44, 210, 246, 0.35);
+            padding: 2.5rem;
+            background: radial-gradient(circle at top left, rgba(44, 210, 246, 0.25), transparent 60%), var(--card);
+            text-align: center;
+        }
+
+        footer {
+            padding: 2.5rem 0 3rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        /* Modal + formulário */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 5, 10, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            width: min(960px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #070b13;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 2.2rem 2.5rem 2rem;
+            box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.75);
+            position: relative;
+        }
+
+        .btn-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            color: var(--muted);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.85rem;
+            font-family: "Space Grotesk", sans-serif;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin-top: 0.35rem;
+        }
+
+        .modal-pill {
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.5rem 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .steps {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 180px;
+            padding: 0.7rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .step span {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .step.active {
+            border-color: rgba(44, 210, 246, 0.6);
+            background: rgba(44, 210, 246, 0.08);
+            color: var(--text);
+        }
+
+        .form-grid {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grid .wide {
+            grid-column: span 2;
+        }
+
+        .form-grid.active-step {
+            display: grid;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 0.35rem;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #0c111d;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        textarea {
+            resize: none;
+            min-height: 110px;
+        }
+
+        .helper {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .modal-btn {
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        .btn[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .lgpd-consent {
+            display: flex;
+            gap: 0.6rem;
+            align-items: flex-start;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .lgpd-consent input {
+            width: auto;
+            margin-top: 0.2rem;
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(7, 11, 19, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 1rem 1.4rem;
+            border-radius: 12px;
+            color: var(--text);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+            z-index: 1100;
+        }
+
+        #toast.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #toast.success {
+            border-color: rgba(46, 204, 113, 0.4);
+        }
+
+        #toast.error {
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+
+        @media (max-width: 720px) {
+            nav {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .cta {
+                padding: 2rem;
+            }
+
+            .modal {
+                padding: 1.6rem;
+                max-height: 92vh;
+            }
+
+            .modal-header {
+                flex-direction: column;
+            }
+
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-actions {
+                width: 100%;
+            }
+
+            .modal-btn {
+                width: 100%;
+            }
+
+            .form-grid .wide {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">ProfitMed</div>
+                <div class="nav-links">
+                    <a href="#estrategicos">Serviços</a>
+                    <a href="#planos">Planos</a>
+                    <a href="#processo">Como funciona</a>
+                    <a href="#agenda">Agenda</a>
+                </div>
+                <button class="btn btn-secondary" data-plan-trigger="">Contrate agora</button>
+            </nav>
+
+            <div class="hero">
+                <div>
+                    <div class="tag"><i class="ph ph-heartbeat"></i> Clínicas e consultórios</div>
+                    <h1>Seu contador é bom? Nós entregamos ainda mais, além do básico.</h1>
+                    <p>Você recebe informações estratégicas para reduzir custos, melhorar processos e aumentar o lucro
+                        da sua clínica.</p>
+                    <div class="hero-cta">
+                        <a href="#planos" class="btn btn-primary">Ver planos e iniciar agora <i
+                                class="ph ph-arrow-right"></i></a>
+                        <a href="https://calendar.google.com/calendar/u/0?cid=YjJhNDhlM2JhNTA4N2JlMThhNmRmYTlhN2Q0YThiNDkzZDBhNTY0NjUyN2NlMTMyNDhiYWY3YzVhZmM3ZWNhYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+                            class="btn btn-secondary" target="_blank" rel="noopener">Falar com o CEO antes de fechar negócio</a>
+                    </div>
+                </div>
+                <div class="hero-cards">
+                    <div class="hero-card">
+                        <span>Especialistas na saúde</span>
+                        <strong>+140</strong>
+                        <span>clínicas e consultórios atendidos</span>
+                    </div>
+                    <div class="hero-card">
+                        <span>Da rotina ao estratégico</span>
+                        <strong>0</strong>
+                        <span>obrigações vencidas desde 2023</span>
+                    </div>
+                    <div class="hero-card">
+                        <span>Faturamento atendido</span>
+                        <strong>R$ 300K</strong>
+                        <span>por mês (limite do plano VIP)</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="estrategicos">
+            <div class="section-head">
+                <div class="tag">Serviços estratégicos</div>
+                <h2 class="section-title">Tudo o que vai além do básico contábil</h2>
+                <p class="section-subtitle">Estão em todos os planos para clínicas e consultórios: inteligência de
+                    dados, relatórios claros e suporte consultivo focado em lucros.</p>
+            </div>
+            <div class="grid grid-3">
+                <div class="card">
+                    <i class="ph ph-chart-pie"></i>
+                    <h3>Relatórios financeiros claros</h3>
+                    <p>DREs segmentadas, comparativos por especialidade e visualização amigável para sócios e diretores.</p>
+                </div>
+                <div class="card">
+                    <i class="ph ph-trend-up"></i>
+                    <h3>Onde economizar?</h3>
+                    <p>Identificação rápida de desperdícios em folha, tributos e contratos de fornecedores.</p>
+                </div>
+                <div class="card">
+                    <i class="ph ph-binoculars"></i>
+                    <h3>Pesquisa de mercado</h3>
+                    <p>Benchmark de preços, demanda e margens por cidade para apoiar reajustes.</p>
+                </div>
+                <div class="card">
+                    <i class="ph ph-lightbulb"></i>
+                    <h3>Insights e diagnósticos fiscais</h3>
+                    <p>Alertas sobre riscos tributários, enquadramento e oportunidades com a reforma tributária.</p>
+                </div>
+                <div class="card">
+                    <i class="ph ph-users-three"></i>
+                    <h3>Desempenho da equipe</h3>
+                    <p>Indicadores de produtividade do time assistencial e administrativo.</p>
+                </div>
+                <div class="card">
+                    <i class="ph ph-cpu"></i>
+                    <h3>Mapeamento de automações</h3>
+                    <p>Roteiro de integrações e fluxos para reduzir tarefas manuais.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-head">
+                <div class="tag">Serviços básicos obrigatórios</div>
+                <h2 class="section-title">DP, Fiscal e Contábil no prazo</h2>
+                <p class="section-subtitle">Execução completa das rotinas legais, folha e apurações de impostos —
+                    entregues por um squad que só atende empresas da área da saúde.</p>
+            </div>
+            <div class="grid grid-3">
+                <div class="card">
+                    <i class="ph ph-identification-card"></i>
+                    <h3>Departamento Pessoal</h3>
+                    <p>Folha, encargos, eSocial e admissões/demissões sem atrasos.</p>
+                </div>
+                <div class="card">
+                    <i class="ph ph-currency-circle-dollar"></i>
+                    <h3>Fiscal</h3>
+                    <p>Emissão (médico PJ) e conferência de notas, tributos e guias em dia.</p>
+                </div>
+                <div class="card">
+                    <i class="ph ph-books"></i>
+                    <h3>Contábil</h3>
+                    <p>Classificações, conciliações bancárias e demonstrações contábeis periódicas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="planos">
+            <div class="section-head">
+                <div class="tag">Planos e preços</div>
+                <h2 class="section-title">Escolha o plano de acordo com o porte da sua empresa.</h2>
+                <p class="section-subtitle">Todos incluem serviços básicos + o pacote estratégico ProfitMed. Reuniões
+                    online entram a partir do Master.</p>
+            </div>
+            <div class="plan-grid">
+                <div class="plan-card" data-plan="Médico PJ">
+                    <h3>Médico PJ</h3>
+                    <p class="label">Para médicos PJs que emitem até 3 NFs/mês</p>
+                    <div class="plan-price">R$ 800/mês</div>
+                    <ul class="plan-list">
+                        <li>Serviços básicos: DP / Fiscal / Contábil</li>
+                        <li>Emissão de até 3 notas/mês</li>
+                        <li>Planejamento de INSS</li>
+                    </ul>
+                    <button class="btn btn-primary plan-btn" data-plan-trigger="Médico PJ">Contratar agora</button>
+                </div>
+                <div class="plan-card" data-plan="Essencial">
+                    <h3>Essencial</h3>
+                    <p class="label">Faturamento até R$ 70 mil/mês</p>
+                    <div class="plan-price">R$ 1.500/mês</div>
+                    <ul class="plan-list">
+                        <li>Todos os serviços estratégicos</li>
+                        <li>Serviços básicos completos</li>
+                        <li>Suporte WhatsApp comercial</li>
+                    </ul>
+                    <button class="btn btn-primary plan-btn" data-plan-trigger="Essencial">Contratar agora</button>
+                </div>
+                <div class="plan-card highlight" data-plan="Plus">
+                    <h3>Plus</h3>
+                    <p class="label">Faturamento entre R$ 70 mil e R$ 140 mil/mês</p>
+                    <div class="plan-price">R$ 2.500/mês</div>
+                    <ul class="plan-list">
+                        <li>Todos os serviços estratégicos</li>
+                        <li>Serviços básicos completos</li>
+                        <li>Suporte WhatsApp comercial</li>
+                    </ul>
+                    <button class="btn btn-primary plan-btn" data-plan-trigger="Plus">Contratar agora</button>
+                </div>
+                <div class="plan-card" data-plan="Master">
+                    <h3>Master</h3>
+                    <p class="label">Faturamento entre R$ 140 mil e R$ 210 mil/mês</p>
+                    <div class="plan-price">R$ 4.000/mês</div>
+                    <ul class="plan-list">
+                        <li>Todos os serviços estratégicos</li>
+                        <li>Serviços básicos completos</li>
+                        <li>Suporte WhatsApp comercial</li>
+                        <li>Reunião mensal online com a equipe dedicada</li>
+                    </ul>
+                    <button class="btn btn-primary plan-btn" data-plan-trigger="Master">Contratar agora</button>
+                </div>
+                <div class="plan-card" data-plan="VIP">
+                    <h3>VIP</h3>
+                    <p class="label">Faturamento entre R$ 210 mil e R$ 300 mil/mês</p>
+                    <div class="plan-price">R$ 6.000/mês</div>
+                    <ul class="plan-list">
+                        <li>Todos os serviços estratégicos</li>
+                        <li>Serviços básicos completos</li>
+                        <li>Suporte WhatsApp exclusivo</li>
+                        <li>Reunião mensal online com a equipe dedicada</li>
+                    </ul>
+                    <button class="btn btn-primary plan-btn" data-plan-trigger="VIP">Contratar agora</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="processo">
+            <div class="section-head">
+                <div class="tag">Como funciona</div>
+                <h2 class="section-title">4 passos para assumir sua contabilidade</h2>
+            </div>
+            <div class="grid process-grid">
+                <div class="card process-step">
+                    <span>1</span>
+                    <h3>Escolha do plano</h3>
+                    <p>De acordo com o seu faturamento dos últimos 6 meses, selecione o seu plano.</p>
+                </div>
+                <div class="card process-step">
+                    <span>2</span>
+                    <h3>Formulário de cadastro</h3>
+                    <p>Preencha o formulário e anexe os documentos solicitados.</p>
+                </div>
+                <div class="card process-step">
+                    <span>3</span>
+                    <h3>Assinatura do contrato</h3>
+                    <p>Você receberá em seu e-mail o contrato para assinatura digital.</p>
+                </div>
+                <div class="card process-step">
+                    <span>4</span>
+                    <h3>Onboarding</h3>
+                    <p>Você receberá em seu e-mail os cadastros iniciais e um link para agendar o Onboarding.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="card" style="gap: 1rem; border-left: 3px solid rgba(127, 99, 255, 0.6);">
+                <p style="font-style: italic; color: var(--muted);">"Além de fechar todas as obrigações, a ProfitMed
+                    trouxe mapa de economia e automações. Agora sei exatamente onde posso crescer sem estourar a margem."</p>
+                <div style="display:flex; gap:0.9rem; align-items:center;">
+                    <div
+                        style="width:46px; height:46px; border-radius:50%; background:rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:center; font-weight:600;">
+                        LC</div>
+                    <div>
+                        <strong>Dr. Lucas Carvalho</strong>
+                        <p style="margin:0; color:var(--muted);">Sócio da OncoPrime Care</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="agenda">
+            <div class="cta">
+                <div class="tag" style="margin-bottom: 1rem;">Pronto para avançar?</div>
+                <h2 class="section-title" style="margin:0 0 0.5rem;">Quer reunião com o CEO antes de fechar negócio?
+                </h2>
+                <p class="section-subtitle" style="margin:0 auto 1.5rem;">Agende direto na agenda ou
+                    fale com a equipe comercial.</p>
+                <div class="hero-cta" style="justify-content:center;">
+                    <a href="https://calendar.google.com/calendar/u/0?cid=YjJhNDhlM2JhNTA4N2JlMThhNmRmYTlhN2Q0YThiNDkzZDBhNTY0NjUyN2NlMTMyNDhiYWY3YzVhZmM3ZWNhYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+                        class="btn btn-primary" target="_blank" rel="noopener">Agendar com o CEO <i
+                            class="ph ph-calendar-check"></i></a>
+                    <a href="mailto:ceo@profitmed.com" class="btn btn-secondary">Quero falar com o time ProfitMed</a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            ProfitMed © 2026 — Atendemos clínicas e consultórios médicos nos regimes Simples Nacional e Lucro Presumido.
+        </footer>
+    </div>
+
+    <!-- Modal de contratação -->
+    <div class="modal-overlay" id="cadastro-modal" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <button class="btn-close" id="close-modal" type="button" aria-label="Fechar formulário">
+                <i class="ph ph-x"></i>
+            </button>
+            <div class="modal-header">
+                <div>
+                    <h2 id="modal-title">Organize sua clínica com a ProfitMed</h2>
+                    <p class="subtitle">Preencha em 4 passos e assumimos seu financeiro em até 48h.</p>
+                </div>
+                <div class="modal-pill">
+                    <i class="ph ph-lock"></i> Envio seguro e criptografado
+                </div>
+            </div>
+
+            <div class="steps">
+                <div class="step active" data-step-indicator="0"><span>1</span>Dados da empresa</div>
+                <div class="step" data-step-indicator="1"><span>2</span>Responsáveis & faturamento</div>
+                <div class="step" data-step-indicator="2"><span>3</span>Documentos & integrações</div>
+                <div class="step" data-step-indicator="3"><span>4</span>Pagamento & aceite</div>
+            </div>
+
+            <form id="cadastro-form">
+                <section class="form-grid active-step" data-step="0">
+                    <div>
+                        <label for="plano">Plano ProfitMed*</label>
+                        <select id="plano" name="plano" required>
+                            <option value="">Selecione…</option>
+                            <option value="Médico PJ">Médico PJ</option>
+                            <option value="Essencial">Essencial</option>
+                            <option value="Plus">Plus</option>
+                            <option value="Master">Master</option>
+                            <option value="VIP">VIP</option>
+                            <option value="Personalizado">Personalizado</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="razao_social">Razão social*</label>
+                        <input type="text" id="razao_social" name="razao_social" placeholder="Nome completo da empresa"
+                            required>
+                    </div>
+                    <div>
+                        <label for="cnpj">CNPJ*</label>
+                        <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" required>
+                    </div>
+                    <div>
+                        <label for="nome_fantasia">Nome fantasia</label>
+                        <input type="text" id="nome_fantasia" name="nome_fantasia"
+                            placeholder="Como a empresa é conhecida">
+                    </div>
+                    <div>
+                        <label for="segmento">Segmento</label>
+                        <input type="text" id="segmento" name="segmento" placeholder="Clínica, consultório, centro cirúrgico…">
+                    </div>
+                    <div>
+                        <label for="cidade_estado">Cidade / Estado*</label>
+                        <input type="text" id="cidade_estado" name="cidade_estado" placeholder="Ex.: Belo Horizonte / MG"
+                            required>
+                    </div>
+                    <div class="wide">
+                        <label for="endereco">Endereço completo*</label>
+                        <input type="text" id="endereco" name="endereco"
+                            placeholder="Rua, número, bairro, cidade/UF" required>
+                    </div>
+                </section>
+
+                <section class="form-grid" data-step="1">
+                    <div>
+                        <label for="responsavel_nome">Responsável (nome completo)*</label>
+                        <input type="text" id="responsavel_nome" name="responsavel_nome" placeholder="Quem decide pela empresa"
+                            required>
+                    </div>
+                    <div>
+                        <label for="responsavel_email">E-mail*</label>
+                        <input type="email" id="responsavel_email" name="responsavel_email" placeholder="contato@empresa.com"
+                            required>
+                    </div>
+                    <div>
+                        <label for="responsavel_phone">Celular / WhatsApp*</label>
+                        <input type="tel" id="responsavel_phone" name="responsavel_phone" placeholder="(00) 00000-0000" required>
+                    </div>
+                    <div>
+                        <label for="faturamento">Faturamento mensal atual*</label>
+                        <select id="faturamento" name="faturamento" required>
+                            <option value="">Selecione…</option>
+                            <option value="Até R$ 70 mil">Até R$ 70 mil</option>
+                            <option value="R$ 70 mil a R$ 140 mil">R$ 70 mil a R$ 140 mil</option>
+                            <option value="R$ 140 mil a R$ 210 mil">R$ 140 mil a R$ 210 mil</option>
+                            <option value="R$ 210 mil a R$ 300 mil">R$ 210 mil a R$ 300 mil</option>
+                            <option value="Acima de R$ 300 mil">Acima de R$ 300 mil</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="tamanho_equipe">Equipe atual (nº de colaboradores)</label>
+                        <input type="number" id="tamanho_equipe" name="tamanho_equipe" placeholder="Ex.: 18" min="0">
+                    </div>
+                    <div>
+                        <label for="principal_desafio">Principal desafio hoje</label>
+                        <textarea id="principal_desafio" name="principal_desafio"
+                            placeholder="Conte rapidamente o que mais te tira o sono"></textarea>
+                    </div>
+                </section>
+
+                <section class="form-grid" data-step="2">
+                    <div>
+                        <label for="sistemas">Sistemas que você usa hoje</label>
+                        <input type="text" id="sistemas" name="sistemas" placeholder="iClinic, Feegow, Alterdata, etc.">
+                    </div>
+                    <div>
+                        <label for="links_documentos">Links ou pastas com documentos (Drive, OneDrive, etc.)</label>
+                        <input type="text" id="links_documentos" name="links_documentos"
+                            placeholder="Cole aqui os links dos arquivos">
+                    </div>
+                    <div>
+                        <label for="observacoes_operacionais">Observações operacionais</label>
+                        <textarea id="observacoes_operacionais" name="observacoes_operacionais"
+                            placeholder="Integrações desejadas, urgências, particularidades"></textarea>
+                    </div>
+                </section>
+
+                <section class="form-grid" data-step="3">
+                    <div>
+                        <label for="forma_pagamento">Forma de pagamento preferida*</label>
+                        <select id="forma_pagamento" name="forma_pagamento" required>
+                            <option value="Boleto (Efí)">Boleto (Efí)</option>
+                            <option value="Cartão de crédito">Cartão de crédito</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="dia_cobranca">Data de cobrança</label>
+                        <input type="text" id="dia_cobranca" name="dia_cobranca" value="Todo dia 05" readonly>
+                    </div>
+                    <div>
+                        <label for="notas">Observações adicionais</label>
+                        <textarea id="notas" name="notas" placeholder="Algo que devemos saber antes do onboarding?"
+                            style="min-height:90px;"></textarea>
+                    </div>
+                    <div class="lgpd-consent">
+                        <input type="checkbox" id="lgpd" name="lgpd" required>
+                        <label for="lgpd">Autorizo a ProfitMed a usar meus dados para gerar contrato, cadastro no banco e
+                            propostas comerciais conforme a LGPD.</label>
+                    </div>
+                </section>
+
+                <div class="footer">
+                    <span class="helper" id="form-helper">Envio seguro • confirmação no e-mail e WhatsApp</span>
+                    <div class="footer-actions">
+                        <button type="button" class="btn btn-secondary modal-btn" id="prev-step">Voltar</button>
+                        <button type="button" class="btn btn-primary modal-btn" id="next-step">Próximo</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        const modal = document.getElementById('cadastro-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const form = document.getElementById('cadastro-form');
+        const stepsSections = Array.from(document.querySelectorAll('[data-step]'));
+        const stepIndicators = Array.from(document.querySelectorAll('[data-step-indicator]'));
+        const nextBtn = document.getElementById('next-step');
+        const prevBtn = document.getElementById('prev-step');
+        const helperText = document.getElementById('form-helper');
+        const planSelect = document.getElementById('plano');
+        const toast = document.getElementById('toast');
+        const lgpdCheckbox = document.getElementById('lgpd');
+        const automationEndpoint = window.PROFITMED_ENDPOINT || window.TAXCARE_ENDPOINT || '/api/onboarding';
+        let currentStep = 0;
+        let sending = false;
+
+        const planButtons = document.querySelectorAll('[data-plan-trigger]');
+        planButtons.forEach(btn => {
+            btn.addEventListener('click', (event) => {
+                event.preventDefault();
+                openModal(btn.dataset.planTrigger || '');
+            });
+        });
+
+        function openModal(plan) {
+            if (plan) {
+                planSelect.value = plan;
+            } else {
+                planSelect.value = '';
+            }
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('no-scroll');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('no-scroll');
+        }
+
+        function updateSteps() {
+            stepsSections.forEach((section, index) => {
+                section.classList.toggle('active-step', index === currentStep);
+            });
+            stepIndicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentStep);
+            });
+            prevBtn.disabled = currentStep === 0;
+            nextBtn.textContent = currentStep === stepsSections.length - 1 ? 'Concluir e enviar' : 'Próximo';
+        }
+
+        function showToast(message, state = 'info') {
+            toast.textContent = message;
+            toast.className = '';
+            toast.classList.add(state === 'error' ? 'error' : state === 'success' ? 'success' : 'info');
+            toast.classList.add('visible');
+            clearTimeout(showToast.timeout);
+            showToast.timeout = setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 4000);
+        }
+
+        function collectPayload() {
+            const formData = new FormData(form);
+            return {
+                plan: formData.get('plano'),
+                companyName: formData.get('razao_social'),
+                cnpj: formData.get('cnpj'),
+                tradeName: formData.get('nome_fantasia'),
+                segment: formData.get('segmento'),
+                cityState: formData.get('cidade_estado'),
+                address: formData.get('endereco'),
+                responsible: formData.get('responsavel_nome'),
+                responsibleEmail: formData.get('responsavel_email'),
+                responsiblePhone: formData.get('responsavel_phone'),
+                revenue: formData.get('faturamento'),
+                teamSize: formData.get('tamanho_equipe'),
+                challenge: formData.get('principal_desafio'),
+                systems: formData.get('sistemas'),
+                docsLinks: formData.get('links_documentos'),
+                opsNotes: formData.get('observacoes_operacionais'),
+                payment: formData.get('forma_pagamento'),
+                chargeDay: formData.get('dia_cobranca'),
+                notes: formData.get('notas')
+            };
+        }
+
+        async function submitForm() {
+            if (sending) return;
+            if (!lgpdCheckbox.checked) {
+                showToast('Confirme o aceite da LGPD antes de enviar.', 'error');
+                return;
+            }
+
+            const payload = collectPayload();
+            if (!payload.responsibleEmail) {
+                showToast('Informe o e-mail do responsável para receber o contrato.', 'error');
+                return;
+            }
+
+            // Payload compatível com o endpoint /api/onboarding
+            const body = {
+                plan: payload.plan,
+                companyName: payload.companyName,
+                cnpj: payload.cnpj,
+                tradeName: payload.tradeName,
+                segment: payload.segment,
+                address: payload.address,
+                cityState: payload.cityState,
+                responsible: payload.responsible,
+                responsibleEmail: payload.responsibleEmail,
+                responsiblePhone: payload.responsiblePhone,
+                revenue: payload.revenue,
+                teamSize: payload.teamSize,
+                challenge: payload.challenge,
+                systems: payload.systems,
+                docsLinks: payload.docsLinks,
+                opsNotes: payload.opsNotes,
+                payment: payload.payment,
+                chargeDay: payload.chargeDay,
+                notes: payload.notes
+            };
+
+            try {
+                sending = true;
+                nextBtn.textContent = 'Enviando…';
+                nextBtn.disabled = true;
+                prevBtn.disabled = true;
+                helperText.textContent = 'Processando seu cadastro…';
+
+                const response = await fetch(automationEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Erro ao processar cadastro');
+                }
+
+                // Exibe tela de sucesso com link de assinatura do DocuSeal
+                showSuccess(result);
+                form.reset();
+                currentStep = 0;
+                updateSteps();
+                helperText.textContent = 'Envio seguro • confirmação no e-mail e WhatsApp';
+            } catch (error) {
+                console.error(error);
+                showToast('Não conseguimos enviar agora. Tente novamente em instantes.', 'error');
+                helperText.textContent = 'Falha ao enviar. Verifique a conexão e tente novamente.';
+            } finally {
+                sending = false;
+                nextBtn.disabled = false;
+                prevBtn.disabled = currentStep === 0;
+                nextBtn.textContent = 'Próximo';
+            }
+        }
+
+        function showSuccess(result) {
+            const signUrl = result.docuseal && result.docuseal.sign_url;
+            document.querySelector('.modal').innerHTML = `
+                <div style="text-align:center; padding:3rem 2rem;">
+                    <div style="width:80px;height:80px;background:rgba(44,210,246,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:3rem;">✓</div>
+                    <h2 style="color:#2cd2f6; margin-bottom:1rem; font-family:'Space Grotesk',sans-serif;">Cadastro concluído!</h2>
+                    <p style="color:rgba(248,251,255,0.72); margin-bottom:2rem; line-height:1.6;">
+                        Enviamos um e-mail com o link para assinar o contrato.<br>
+                        ${signUrl ? 'Ou assine agora mesmo clicando abaixo:' : 'Em breve nossa equipe entrará em contato.'}
+                    </p>
+                    ${signUrl ? `
+                    <a href="${signUrl}" target="_blank"
+                       style="display:inline-flex;align-items:center;gap:0.5rem;padding:1.1rem 2.4rem;background:linear-gradient(120deg,rgba(44,210,246,0.95),rgba(127,99,255,0.95));color:#020304;border-radius:999px;font-weight:700;text-decoration:none;font-size:1.05rem;">
+                        Assinar contrato agora →
+                    </a>` : ''}
+                    <p style="color:rgba(248,251,255,0.45); margin-top:2rem; font-size:0.9rem;">
+                        Plano: ${result.plan || '–'} • Empresa: ${result.company || '–'}
+                    </p>
+                </div>
+            `;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < stepsSections.length - 1) {
+                currentStep += 1;
+                updateSteps();
+            } else {
+                submitForm();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep -= 1;
+                updateSteps();
+            }
+        });
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        updateSteps();
+    </script>
+</body>
+
+</html>
