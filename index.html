@@ -184,6 +184,94 @@
             font-family: "Space Grotesk", sans-serif;
         }
 
+        /* ── Hero interativo: médica + relatórios gerenciais em órbita 3D ── */
+        .pm-stage {
+            position: relative;
+            width: 100%;
+            min-height: 640px;
+            perspective: 1800px;
+            user-select: none;
+        }
+        .pm-stage::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(42% 52% at 50% 60%, rgba(255, 255, 255, 0.12), transparent 72%),
+                radial-gradient(58% 55% at 55% 42%, rgba(44, 210, 246, 0.12), transparent 70%);
+            z-index: 0;
+        }
+        .pm-scene { position: absolute; inset: 0; transform-style: preserve-3d; z-index: 1; }
+        .pm-backdrop {
+            position: absolute; inset: 0;
+            background: rgba(3, 5, 10, 0.62); backdrop-filter: blur(3px);
+            opacity: 0; pointer-events: none; transition: opacity 0.4s; z-index: 30;
+        }
+        .pm-scene.focus .pm-backdrop { opacity: 1; pointer-events: auto; }
+        .pm-doc {
+            position: absolute; left: 50%; bottom: 0; height: 106%;
+            transform: translateX(-50%); z-index: 6; animation: pm-docfloat 8s ease-in-out infinite;
+        }
+        .pm-doc img {
+            height: 100%; width: auto; display: block;
+            object-fit: contain; object-position: bottom center;
+            filter: drop-shadow(0 30px 45px rgba(0, 0, 0, 0.55)) brightness(1.05) contrast(1.04);
+        }
+        .pm-pos { position: absolute; z-index: 12; }
+        .pm-float { animation: pm-floaty 9s ease-in-out infinite; }
+        .pm-panel {
+            width: 214px; border-radius: 13px; padding: 13px 14px; cursor: pointer;
+            transform: rotateY(var(--ry, 0)) rotateX(var(--rx, 0)) translateZ(var(--tz, 0));
+            transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.4s, filter 0.4s, box-shadow 0.4s;
+            box-shadow: 0 24px 44px -20px rgba(3, 7, 20, 0.9); outline: none;
+            border: 1px solid rgba(201, 168, 76, 0.5); font-family: "Inter", sans-serif;
+        }
+        .pm-glass-light { background: rgba(251, 250, 247, 0.80); backdrop-filter: blur(6px); color: #1a2a5e; }
+        .pm-glass-dark { background: linear-gradient(165deg, rgba(26, 42, 94, 0.52), rgba(18, 26, 58, 0.48)); backdrop-filter: blur(8px); color: #f6f8fd; border-color: rgba(201, 168, 76, 0.6); }
+        .pm-glass-dark .pm-kpi .val, .pm-glass-dark .pm-phead .t { text-shadow: 0 1px 6px rgba(3, 7, 20, 0.55); }
+        .pm-panel:focus-visible { box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.9), 0 24px 44px -20px rgba(3, 7, 20, 0.9); }
+        .pm-phead { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .pm-phead i { font-size: 18px; color: #c9a84c; }
+        .pm-phead .t { font-size: 13.5px; font-weight: 600; letter-spacing: 0.01em; }
+        .pm-phead .tag { margin-left: auto; font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #a8852f; background: rgba(201, 168, 76, 0.16); padding: 2px 7px; border-radius: 20px; }
+        .pm-glass-dark .pm-phead .tag { color: #e9d9a6; background: rgba(201, 168, 76, 0.22); }
+        .pm-kpi { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin: 5px 0; }
+        .pm-kpi .lab { font-size: 11px; color: #5f6b8a; }
+        .pm-glass-dark .pm-kpi .lab { color: #b9c2dd; }
+        .pm-kpi .val { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+        .pm-kpi .val.gold { color: #a8852f; }
+        .pm-glass-dark .pm-kpi .val.gold { color: #e9c25e; }
+        .pm-bar { display: flex; height: 9px; border-radius: 6px; overflow: hidden; margin-top: 9px; }
+        .pm-bar span { display: block; height: 100%; }
+        .pm-big { font-size: 23px; font-weight: 600; color: #a8852f; font-variant-numeric: tabular-nums; line-height: 1.1; }
+        .pm-sub { font-size: 10.5px; color: #5f6b8a; margin-top: 2px; }
+        .pm-glass-dark .pm-sub { color: #b9c2dd; }
+        .pm-leak { display: flex; align-items: center; gap: 7px; font-size: 11px; margin-top: 7px; color: #3a466b; }
+        .pm-dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; }
+        .pm-leak .v { margin-left: auto; font-variant-numeric: tabular-nums; color: #1a2a5e; font-weight: 600; }
+        .pm-gauge { height: 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.18); margin-top: 9px; overflow: hidden; }
+        .pm-gauge i { display: block; height: 100%; width: 62%; background: linear-gradient(90deg, #d8b85a, #a8852f); border-radius: 6px; }
+        .pm-detail { display: none; margin-top: 11px; padding-top: 11px; border-top: 1px solid rgba(201, 168, 76, 0.32); }
+        .pm-glass-dark .pm-detail { border-top-color: rgba(201, 168, 76, 0.4); }
+        .pm-note { font-size: 11px; line-height: 1.55; color: #4a567c; margin-top: 8px; }
+        .pm-glass-dark .pm-note { color: #c3ccea; }
+        .pm-close {
+            position: absolute; top: 9px; right: 9px; width: 24px; height: 24px; border-radius: 50%;
+            border: 1px solid rgba(201, 168, 76, 0.5); background: rgba(255, 255, 255, 0.14); color: inherit;
+            display: none; align-items: center; justify-content: center; cursor: pointer; font-size: 14px;
+        }
+        .pm-hint { position: absolute; bottom: 4px; left: 0; right: 0; text-align: center; font-size: 11px; letter-spacing: 0.04em; color: rgba(248, 251, 255, 0.55); z-index: 7; }
+        .pm-scene.focus .pm-pos:not(.expanded) .pm-panel { opacity: 0.28; filter: saturate(0.45) blur(1.5px); pointer-events: none; }
+        .pm-pos.expanded { z-index: 40 !important; top: 50% !important; left: 50% !important; right: auto !important; bottom: auto !important; }
+        .pm-pos.expanded .pm-float { animation: none; }
+        .pm-pos.expanded .pm-panel { transform: translate(-50%, -50%) scale(1.55); cursor: default; box-shadow: 0 44px 84px -24px rgba(3, 7, 20, 0.95); }
+        .pm-pos.expanded .pm-detail { display: block; }
+        .pm-pos.expanded .pm-close { display: flex; }
+        @keyframes pm-floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-13px); } }
+        @keyframes pm-docfloat { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-7px); } }
+        @media (prefers-reduced-motion: reduce) { .pm-float, .pm-doc { animation: none; } }
+        @media (max-width: 760px) { .pm-stage { min-height: 560px; } .pm-panel { width: 168px; } }
+
         section {
             padding: 4.5rem 0;
         }
@@ -645,25 +733,116 @@
                             class="btn btn-secondary" target="_blank" rel="noopener">Falar com o CEO antes de fechar negócio</a>
                     </div>
                 </div>
-                <div class="hero-cards">
-                    <div class="hero-card">
-                        <span>Especialistas na saúde</span>
-                        <strong>+140</strong>
-                        <span>clínicas e consultórios atendidos</span>
+                <div class="pm-stage" aria-label="Médica analisando uma prévia ilustrativa dos relatórios gerenciais da ProfitMed; clique em um painel para ampliar. Os relatórios reais são completos e detalhados.">
+                    <div class="pm-scene">
+                        <div class="pm-backdrop"></div>
+
+                        <div class="pm-doc">
+                            <picture>
+                                <source srcset="../dev/profitmed-reports/assets/medica-web.webp" type="image/webp">
+                                <img src="../dev/profitmed-reports/assets/medica-web.png" alt="Médica analisando relatórios gerenciais">
+                            </picture>
+                        </div>
+
+                        <div class="pm-pos" style="top:0;right:2px"><div class="pm-float" style="animation-delay:-1s">
+                            <div class="pm-panel pm-glass-dark" style="--ry:-16deg;--rx:5deg;--tz:40px" role="button" tabindex="0" aria-expanded="false" aria-label="Painel 360 — ampliar">
+                                <button class="pm-close" aria-label="Fechar"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                <div class="pm-phead"><i class="ph ph-chart-pie-slice" aria-hidden="true"></i><span class="t">Painel 360</span><span class="tag">Maio</span></div>
+                                <div class="pm-kpi"><span class="lab">Faturamento</span><span class="val">R$ 120.000</span></div>
+                                <div class="pm-kpi"><span class="lab">Quanto sobrou</span><span class="val gold">R$ 54,8 mil</span></div>
+                                <div class="pm-bar"><span style="width:6%;background:#b23b3b"></span><span style="width:15%;background:#b7791f"></span><span style="width:33%;background:#94a0b8"></span><span style="width:46%;background:#2e7d5b"></span></div>
+                                <div class="pm-detail">
+                                    <div class="pm-kpi"><span class="lab">Margem líquida</span><span class="val gold">45,7%</span></div>
+                                    <div class="pm-kpi"><span class="lab">Fôlego de caixa</span><span class="val">75 dias</span></div>
+                                    <div class="pm-note">Impostos 6% · Folha 15% · Despesas 33% · Lucro 46% do faturamento.</div>
+                                </div>
+                            </div>
+                        </div></div>
+
+                        <div class="pm-pos" style="top:44px;left:0"><div class="pm-float" style="animation-delay:-3.5s">
+                            <div class="pm-panel pm-glass-light" style="--ry:15deg;--rx:4deg;--tz:40px" role="button" tabindex="0" aria-expanded="false" aria-label="Onde Economizar — ampliar">
+                                <button class="pm-close" aria-label="Fechar"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                <div class="pm-phead"><i class="ph ph-trend-down" aria-hidden="true"></i><span class="t">Onde Economizar</span></div>
+                                <div class="pm-big">R$ 84 mil<span style="font-size:13px">/ano</span></div>
+                                <div class="pm-sub">Economia potencial estimada</div>
+                                <div class="pm-leak"><span class="pm-dot" style="background:#b23b3b"></span>Material médico<span class="v">R$ 6,0 mil</span></div>
+                                <div class="pm-detail">
+                                    <div class="pm-leak"><span class="pm-dot" style="background:#b23b3b"></span>Taxas de maquininha<span class="v">R$ 3,6 mil</span></div>
+                                    <div class="pm-leak"><span class="pm-dot" style="background:#b7791f"></span>Softwares ociosos<span class="v">R$ 1,9 mil</span></div>
+                                    <div class="pm-leak"><span class="pm-dot" style="background:#2e7d5b"></span>Energia<span class="v">R$ 2,4 mil</span></div>
+                                </div>
+                            </div>
+                        </div></div>
+
+                        <div class="pm-pos" style="bottom:26px;left:0"><div class="pm-float" style="animation-delay:-5s">
+                            <div class="pm-panel pm-glass-light" style="--ry:13deg;--rx:-4deg;--tz:30px" role="button" tabindex="0" aria-expanded="false" aria-label="Desempenho da Equipe — ampliar">
+                                <button class="pm-close" aria-label="Fechar"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                <div class="pm-phead"><i class="ph ph-users-three" aria-hidden="true"></i><span class="t">Desempenho da Equipe</span></div>
+                                <div class="pm-kpi"><span class="lab">Folha / faturamento</span><span class="val">15%</span></div>
+                                <div class="pm-kpi"><span class="lab">Retorno sobre a folha</span><span class="val gold">R$ 6,7</span></div>
+                                <div class="pm-detail">
+                                    <div class="pm-note">Assistencial × administrativo, custo por colaborador e % da folha mês a mês — sob controle vs. referência de 22%.</div>
+                                </div>
+                            </div>
+                        </div></div>
+
+                        <div class="pm-pos" style="bottom:26px;right:2px"><div class="pm-float" style="animation-delay:-7s">
+                            <div class="pm-panel pm-glass-dark" style="--ry:-13deg;--rx:-4deg;--tz:30px" role="button" tabindex="0" aria-expanded="false" aria-label="Diagnóstico Fiscal — ampliar">
+                                <button class="pm-close" aria-label="Fechar"><i class="ph ph-x" aria-hidden="true"></i></button>
+                                <div class="pm-phead"><i class="ph ph-scales" aria-hidden="true"></i><span class="t">Diagnóstico Fiscal</span></div>
+                                <div class="pm-kpi"><span class="lab">Regime atual</span><span class="val">Simples</span></div>
+                                <div class="pm-sub">Distância do teto do Simples</div>
+                                <div class="pm-gauge"><i></i></div>
+                                <div class="pm-detail">
+                                    <div class="pm-kpi"><span class="lab">Fator R (folha)</span><span class="val gold">15%</span></div>
+                                    <div class="pm-note">Simples × Lucro Presumido lado a lado. Reforma Tributária: IBS de 2029 a 2033, com redução de 60% para serviços médicos.</div>
+                                </div>
+                            </div>
+                        </div></div>
+
                     </div>
-                    <div class="hero-card">
-                        <span>Da rotina ao estratégico</span>
-                        <strong>0</strong>
-                        <span>obrigações vencidas desde 2023</span>
-                    </div>
-                    <div class="hero-card">
-                        <span>Faturamento atendido</span>
-                        <strong>R$ 300K</strong>
-                        <span>por mês (limite do plano VIP)</span>
-                    </div>
+                    <div class="pm-hint">Clique para ampliar — a imagem é uma prévia ilustrativa, os relatórios reais são completos e detalhados.</div>
                 </div>
             </div>
         </header>
+
+        <script>
+        (function () {
+            var stage = document.querySelector('.pm-stage');
+            if (!stage) return;
+            var scene = stage.querySelector('.pm-scene');
+            var backdrop = stage.querySelector('.pm-backdrop');
+            var hint = stage.querySelector('.pm-hint');
+            var panels = [].slice.call(stage.querySelectorAll('.pm-panel'));
+            function closeAll() {
+                scene.classList.remove('focus');
+                stage.querySelectorAll('.pm-pos.expanded').forEach(function (p) { p.classList.remove('expanded'); });
+                panels.forEach(function (p) { p.setAttribute('aria-expanded', 'false'); });
+                if (hint) hint.style.opacity = '';
+            }
+            function open(panel) {
+                var pos = panel.closest('.pm-pos');
+                if (pos.classList.contains('expanded')) { closeAll(); return; }
+                closeAll();
+                pos.classList.add('expanded');
+                scene.classList.add('focus');
+                panel.setAttribute('aria-expanded', 'true');
+                if (hint) hint.style.opacity = '0';
+                panel.focus();
+            }
+            panels.forEach(function (panel) {
+                panel.addEventListener('click', function (e) {
+                    if (e.target.closest('.pm-close')) { closeAll(); return; }
+                    open(panel);
+                });
+                panel.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(panel); }
+                });
+            });
+            if (backdrop) backdrop.addEventListener('click', closeAll);
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
+        })();
+        </script>
 
         <section id="estrategicos">
             <div class="section-head">
@@ -1036,7 +1215,7 @@
         const planSelect = document.getElementById('plano');
         const toast = document.getElementById('toast');
         const lgpdCheckbox = document.getElementById('lgpd');
-        const automationEndpoint = window.PROFITMED_ENDPOINT || window.TAXCARE_ENDPOINT || '/api/onboarding';
+        const automationEndpoint = window.PROFITMED_ENDPOINT || 'http://localhost:3000/api/onboarding';
         let currentStep = 0;
         let sending = false;
 
@@ -1190,20 +1369,38 @@
 
         function showSuccess(result) {
             const signUrl = result.docuseal && result.docuseal.sign_url;
+            const paymentUrl = result.efi && result.efi.payment_url;
+            
             document.querySelector('.modal').innerHTML = `
-                <div style="text-align:center; padding:3rem 2rem;">
-                    <div style="width:80px;height:80px;background:rgba(44,210,246,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:3rem;">✓</div>
-                    <h2 style="color:#2cd2f6; margin-bottom:1rem; font-family:'Space Grotesk',sans-serif;">Cadastro concluído!</h2>
-                    <p style="color:rgba(248,251,255,0.72); margin-bottom:2rem; line-height:1.6;">
-                        Enviamos um e-mail com o link para assinar o contrato.<br>
-                        ${signUrl ? 'Ou assine agora mesmo clicando abaixo:' : 'Em breve nossa equipe entrará em contato.'}
+                <div style="text-align:center; padding:2rem 1.5rem;">
+                    <div style="width:70px;height:70px;background:rgba(44,210,246,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:2.5rem;color:#2cd2f6;">✓</div>
+                    <h2 style="color:#2cd2f6; margin-bottom:0.8rem; font-family:'Space Grotesk',sans-serif;">Tudo pronto, ${result.company || 'Doutor(a)'}!</h2>
+                    <p style="color:rgba(248,251,255,0.72); margin-bottom:2rem; line-height:1.6; font-size:1.05rem;">
+                        Seu onboarding foi iniciado com sucesso. Siga os passos abaixo:
                     </p>
-                    ${signUrl ? `
-                    <a href="${signUrl}" target="_blank"
-                       style="display:inline-flex;align-items:center;gap:0.5rem;padding:1.1rem 2.4rem;background:linear-gradient(120deg,rgba(44,210,246,0.95),rgba(127,99,255,0.95));color:#020304;border-radius:999px;font-weight:700;text-decoration:none;font-size:1.05rem;">
-                        Assinar contrato agora →
-                    </a>` : ''}
-                    <p style="color:rgba(248,251,255,0.45); margin-top:2rem; font-size:0.9rem;">
+                    
+                    <div style="display:flex; flex-direction:column; gap:1rem; max-width:400px; margin:0 auto;">
+                        ${signUrl ? `
+                        <div style="background:rgba(255,255,255,0.03); padding:1.2rem; border-radius:18px; border:1px solid rgba(44,210,246,0.2);">
+                            <p style="font-size:0.9rem; margin-bottom:0.8rem; color:var(--muted);">1. Assinatura do Contrato</p>
+                            <a href="${signUrl}" target="_blank"
+                               style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.9rem 1.5rem;background:linear-gradient(120deg,rgba(44,210,246,0.95),rgba(127,99,255,0.95));color:#020304;border-radius:999px;font-weight:700;text-decoration:none;font-size:1rem;">
+                                Assinar contrato agora <i class="ph ph-signature"></i>
+                            </a>
+                        </div>` : ''}
+
+                        ${paymentUrl ? `
+                        <div style="background:rgba(255,255,255,0.03); padding:1.2rem; border-radius:18px; border:1px solid rgba(127,99,255,0.2);">
+                            <p style="font-size:0.9rem; margin-bottom:0.8rem; color:var(--muted);">2. Pagamento do Carnê (12x)</p>
+                            <a href="${paymentUrl}" target="_blank"
+                               style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.9rem 1.5rem;background:rgba(255,255,255,0.08);color:var(--text);border:1px solid rgba(255,255,255,0.2);border-radius:999px;font-weight:600;text-decoration:none;font-size:1rem;">
+                                Abrir Carnê de Boletos <i class="ph ph-barcode"></i>
+                            </a>
+                        </div>` : ''}
+                    </div>
+
+                    <p style="color:rgba(248,251,255,0.45); margin-top:2.5rem; font-size:0.85rem;">
+                        Enviamos cópias dos links para seu e-mail e WhatsApp.<br>
                         Plano: ${result.plan || '–'} • Empresa: ${result.company || '–'}
                     </p>
                 </div>
