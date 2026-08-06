@@ -353,10 +353,103 @@
             color: var(--cyan);
         }
 
-        .plan-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        .grid-center {
+            justify-content: center;
+        }
+
+        /* ── Carrossel horizontal (estilo Netflix) ── */
+        .plan-rail {
+            position: relative;
+            margin: 0 -1rem;
+        }
+
+        .plan-grid,
+        .card-track {
+            display: flex;
             gap: 1.2rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            padding: 0.6rem 1rem 1.4rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .plan-grid::-webkit-scrollbar,
+        .card-track::-webkit-scrollbar { display: none; }
+
+        .card-track .card {
+            flex: 0 0 288px;
+            scroll-snap-align: start;
+            transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1), border-color 0.28s, box-shadow 0.28s;
+        }
+
+        .card-track .card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(44, 210, 246, 0.45);
+            box-shadow: 0 26px 60px -40px rgba(44, 210, 246, 0.9);
+        }
+
+        @media (max-width: 480px) {
+            .card-track .card { flex: 0 0 82%; }
+        }
+
+        .plan-rail::before,
+        .plan-rail::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 64px;
+            pointer-events: none;
+            z-index: 3;
+            transition: opacity 0.3s;
+        }
+
+        .plan-rail::before {
+            left: 0;
+            background: linear-gradient(90deg, var(--bg), transparent);
+        }
+
+        .plan-rail::after {
+            right: 0;
+            background: linear-gradient(270deg, var(--bg), transparent);
+        }
+
+        .plan-rail.at-start::before { opacity: 0; }
+        .plan-rail.at-end::after { opacity: 0; }
+
+        .rail-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: rgba(11, 14, 22, 0.92);
+            backdrop-filter: blur(10px);
+            color: var(--text);
+            font-size: 1.25rem;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: transform 0.25s, background 0.25s, opacity 0.25s;
+        }
+
+        .rail-btn:hover {
+            background: var(--cyan);
+            color: #03050a;
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .rail-btn.prev { left: 4px; }
+        .rail-btn.next { right: 4px; }
+        .rail-btn[disabled] { opacity: 0; pointer-events: none; }
+
+        @media (max-width: 760px) {
+            .rail-btn { display: none; }
         }
 
         .plan-card {
@@ -368,6 +461,19 @@
             flex-direction: column;
             gap: 0.9rem;
             position: relative;
+            flex: 0 0 272px;
+            scroll-snap-align: start;
+            transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1), border-color 0.28s, box-shadow 0.28s;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(44, 210, 246, 0.45);
+            box-shadow: 0 26px 60px -40px rgba(44, 210, 246, 0.9);
+        }
+
+        @media (max-width: 480px) {
+            .plan-card { flex: 0 0 84%; }
         }
 
         .plan-card.highlight {
@@ -851,26 +957,24 @@
                 <p class="section-subtitle">Estão em todos os planos para clínicas e consultórios: inteligência de
                     dados, relatórios claros e suporte consultivo focado em lucros.</p>
             </div>
-            <div class="grid grid-3">
+            <div class="plan-rail at-start">
+                <button class="rail-btn prev" type="button" aria-label="Ver serviços anteriores"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+                <button class="rail-btn next" type="button" aria-label="Ver mais serviços"><i class="ph ph-caret-right" aria-hidden="true"></i></button>
+                <div class="card-track">
                 <div class="card">
                     <i class="ph ph-chart-pie"></i>
                     <h3>Relatórios financeiros claros</h3>
                     <p>DREs segmentadas, comparativos por especialidade e visualização amigável para sócios e diretores.</p>
                 </div>
                 <div class="card">
-                    <i class="ph ph-trend-up"></i>
-                    <h3>Onde economizar?</h3>
-                    <p>Identificação rápida de desperdícios em folha, tributos e contratos de fornecedores.</p>
-                </div>
-                <div class="card">
-                    <i class="ph ph-binoculars"></i>
-                    <h3>Pesquisa de mercado</h3>
-                    <p>Benchmark de preços, demanda e margens por cidade para apoiar reajustes.</p>
-                </div>
-                <div class="card">
                     <i class="ph ph-lightbulb"></i>
                     <h3>Insights e diagnósticos fiscais</h3>
                     <p>Alertas sobre riscos tributários, enquadramento e oportunidades com a reforma tributária.</p>
+                </div>
+                <div class="card">
+                    <i class="ph ph-trend-up"></i>
+                    <h3>Onde economizar?</h3>
+                    <p>Identificação rápida de desperdícios em folha, tributos e contratos de fornecedores.</p>
                 </div>
                 <div class="card">
                     <i class="ph ph-users-three"></i>
@@ -882,6 +986,7 @@
                     <h3>Mapeamento de automações</h3>
                     <p>Roteiro de integrações e fluxos para reduzir tarefas manuais.</p>
                 </div>
+            </div>
             </div>
         </section>
 
@@ -918,7 +1023,10 @@
                 <p class="section-subtitle">Todos incluem serviços básicos + o pacote estratégico ProfitMed. Reuniões
                     online entram a partir do Master.</p>
             </div>
-            <div class="plan-grid">
+            <div class="plan-rail at-start">
+                <button class="rail-btn prev" type="button" aria-label="Ver planos anteriores"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+                <button class="rail-btn next" type="button" aria-label="Ver mais planos"><i class="ph ph-caret-right" aria-hidden="true"></i></button>
+                <div class="plan-grid">
                 <div class="plan-card" data-plan="Médico PJ">
                     <h3>Médico PJ</h3>
                     <p class="label">Para médicos PJs que emitem até 3 NFs/mês</p>
@@ -976,6 +1084,7 @@
                     </ul>
                     <button class="btn btn-primary plan-btn" data-plan-trigger="VIP">Contratar agora</button>
                 </div>
+            </div>
             </div>
         </section>
 
@@ -1437,6 +1546,35 @@
         });
 
         updateSteps();
+    </script>
+
+    <script>
+        (function () {
+            document.querySelectorAll('.plan-rail').forEach(function (rail) {
+                var track = rail.querySelector('.plan-grid, .card-track');
+                var prev = rail.querySelector('.rail-btn.prev');
+                var next = rail.querySelector('.rail-btn.next');
+                if (!track || !prev || !next) return;
+                function step() {
+                    var item = track.firstElementChild;
+                    return item ? item.offsetWidth + 19 : 300;
+                }
+                function sync() {
+                    var max = track.scrollWidth - track.clientWidth - 2;
+                    var atStart = track.scrollLeft <= 2;
+                    var atEnd = track.scrollLeft >= max;
+                    rail.classList.toggle('at-start', atStart);
+                    rail.classList.toggle('at-end', atEnd || max <= 0);
+                    prev.disabled = atStart;
+                    next.disabled = atEnd || max <= 0;
+                }
+                prev.addEventListener('click', function () { track.scrollBy({ left: -step() * 2, behavior: 'smooth' }); });
+                next.addEventListener('click', function () { track.scrollBy({ left: step() * 2, behavior: 'smooth' }); });
+                track.addEventListener('scroll', sync, { passive: true });
+                window.addEventListener('resize', sync);
+                sync();
+            });
+        })();
     </script>
 </body>
 
