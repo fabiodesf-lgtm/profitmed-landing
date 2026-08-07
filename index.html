@@ -1361,6 +1361,7 @@
             const btn = event.target.closest('[data-plan-trigger]');
             if (!btn) return;
             event.preventDefault();
+            if (Date.now() - (window.__pmDragAt || 0) < 250) return;
             openModal(btn.dataset.planTrigger || '');
         });
 
@@ -1579,6 +1580,14 @@
     <script>
         (function () {
             var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var justDragged = false;
+
+            document.addEventListener('click', function (e) {
+                if (!justDragged) return;
+                if (!e.target.closest || !e.target.closest('.plan-rail')) return;
+                e.preventDefault();
+                e.stopPropagation();
+            }, true);
 
             document.querySelectorAll('.plan-rail').forEach(function (rail) {
                 var track = rail.querySelector('.plan-grid, .card-track');
@@ -1674,26 +1683,42 @@
                     });
                 }, { passive: true });
 
-                var down = false, startX = 0, startScroll = 0, moved = 0;
+                var down = false, dragging = false, startX = 0, startScroll = 0, moved = 0;
+                var DRAG_MIN = 6;
+
                 track.addEventListener('pointerdown', function (e) {
-                    if (e.pointerType === 'touch') return;
-                    down = true; moved = 0;
+                    if (e.pointerType === 'touch' || e.button !== 0) return;
+                    justDragged = false;
+                    down = true; dragging = false; moved = 0;
                     startX = e.clientX;
                     startScroll = track.scrollLeft;
-                    rail.classList.add('dragging');
                 });
+
                 window.addEventListener('pointermove', function (e) {
                     if (!down) return;
                     var dx = e.clientX - startX;
                     moved = Math.abs(dx);
+                    if (!dragging && moved < DRAG_MIN) return;
+                    if (!dragging) {
+                        dragging = true;
+                        rail.classList.add('dragging');
+                    }
                     track.scrollLeft = startScroll - dx;
                     normalize();
                 });
+
                 window.addEventListener('pointerup', function () {
                     if (!down) return;
                     down = false;
-                    rail.classList.remove('dragging');
+                    if (dragging) {
+                        dragging = false;
+                        rail.classList.remove('dragging');
+                        justDragged = true;
+                        window.__pmDragAt = Date.now();
+                    }
                 });
+
+
 
                 track.setAttribute('tabindex', '0');
                 track.setAttribute('role', 'region');
