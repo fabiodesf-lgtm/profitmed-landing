@@ -1288,11 +1288,6 @@
                         <label for="dia_cobranca">Data de cobrança</label>
                         <input type="text" id="dia_cobranca" name="dia_cobranca" value="Todo dia 05" readonly>
                     </div>
-                    <div>
-                        <label for="notas">Observações adicionais</label>
-                        <textarea id="notas" name="notas" placeholder="Algo que devemos saber antes do onboarding?"
-                            style="min-height:90px;"></textarea>
-                    </div>
                     <div class="lgpd-consent">
                         <input type="checkbox" id="lgpd" name="lgpd" required>
                         <label for="lgpd">Autorizo a ProfitMed a usar meus dados para gerar contrato, cadastro no banco e
@@ -1391,8 +1386,7 @@
                 teamSize: formData.get('tamanho_equipe'),
                 challenge: formData.get('principal_desafio'),
                 payment: formData.get('forma_pagamento'),
-                chargeDay: formData.get('dia_cobranca'),
-                notes: formData.get('notas')
+                chargeDay: formData.get('dia_cobranca')
             };
         }
 
@@ -1423,8 +1417,7 @@
                 teamSize: payload.teamSize,
                 challenge: payload.challenge,
                 payment: payload.payment,
-                chargeDay: payload.chargeDay,
-                notes: payload.notes
+                chargeDay: payload.chargeDay
             };
 
             try {
