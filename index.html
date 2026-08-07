@@ -1202,8 +1202,7 @@
             <div class="steps">
                 <div class="step active" data-step-indicator="0"><span>1</span>Dados da empresa</div>
                 <div class="step" data-step-indicator="1"><span>2</span>Responsáveis & faturamento</div>
-                <div class="step" data-step-indicator="2"><span>3</span>Documentos & integrações</div>
-                <div class="step" data-step-indicator="3"><span>4</span>Pagamento & aceite</div>
+                <div class="step" data-step-indicator="2"><span>3</span>Pagamento & aceite</div>
             </div>
 
             <form id="cadastro-form">
@@ -1230,18 +1229,8 @@
                         <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" required>
                     </div>
                     <div>
-                        <label for="nome_fantasia">Nome fantasia</label>
-                        <input type="text" id="nome_fantasia" name="nome_fantasia"
-                            placeholder="Como a empresa é conhecida">
-                    </div>
-                    <div>
                         <label for="segmento">Segmento</label>
                         <input type="text" id="segmento" name="segmento" placeholder="Clínica, consultório, centro cirúrgico…">
-                    </div>
-                    <div>
-                        <label for="cidade_estado">Cidade / Estado*</label>
-                        <input type="text" id="cidade_estado" name="cidade_estado" placeholder="Ex.: Belo Horizonte / MG"
-                            required>
                     </div>
                     <div class="wide">
                         <label for="endereco">Endereço completo*</label>
@@ -1288,23 +1277,6 @@
                 </section>
 
                 <section class="form-grid" data-step="2">
-                    <div>
-                        <label for="sistemas">Sistemas que você usa hoje</label>
-                        <input type="text" id="sistemas" name="sistemas" placeholder="iClinic, Feegow, Alterdata, etc.">
-                    </div>
-                    <div>
-                        <label for="links_documentos">Links ou pastas com documentos (Drive, OneDrive, etc.)</label>
-                        <input type="text" id="links_documentos" name="links_documentos"
-                            placeholder="Cole aqui os links dos arquivos">
-                    </div>
-                    <div>
-                        <label for="observacoes_operacionais">Observações operacionais</label>
-                        <textarea id="observacoes_operacionais" name="observacoes_operacionais"
-                            placeholder="Integrações desejadas, urgências, particularidades"></textarea>
-                    </div>
-                </section>
-
-                <section class="form-grid" data-step="3">
                     <div>
                         <label for="forma_pagamento">Forma de pagamento preferida*</label>
                         <select id="forma_pagamento" name="forma_pagamento" required>
@@ -1410,9 +1382,7 @@
                 plan: formData.get('plano'),
                 companyName: formData.get('razao_social'),
                 cnpj: formData.get('cnpj'),
-                tradeName: formData.get('nome_fantasia'),
                 segment: formData.get('segmento'),
-                cityState: formData.get('cidade_estado'),
                 address: formData.get('endereco'),
                 responsible: formData.get('responsavel_nome'),
                 responsibleEmail: formData.get('responsavel_email'),
@@ -1420,9 +1390,6 @@
                 revenue: formData.get('faturamento'),
                 teamSize: formData.get('tamanho_equipe'),
                 challenge: formData.get('principal_desafio'),
-                systems: formData.get('sistemas'),
-                docsLinks: formData.get('links_documentos'),
-                opsNotes: formData.get('observacoes_operacionais'),
                 payment: formData.get('forma_pagamento'),
                 chargeDay: formData.get('dia_cobranca'),
                 notes: formData.get('notas')
@@ -1447,19 +1414,14 @@
                 plan: payload.plan,
                 companyName: payload.companyName,
                 cnpj: payload.cnpj,
-                tradeName: payload.tradeName,
                 segment: payload.segment,
                 address: payload.address,
-                cityState: payload.cityState,
                 responsible: payload.responsible,
                 responsibleEmail: payload.responsibleEmail,
                 responsiblePhone: payload.responsiblePhone,
                 revenue: payload.revenue,
                 teamSize: payload.teamSize,
                 challenge: payload.challenge,
-                systems: payload.systems,
-                docsLinks: payload.docsLinks,
-                opsNotes: payload.opsNotes,
                 payment: payload.payment,
                 chargeDay: payload.chargeDay,
                 notes: payload.notes
